@@ -1,0 +1,3 @@
+1. Transformei o XML em JSON utilizando o site: http://www.utilities-online.info/xmltojson/#.XiAqqd_njHo
+2. Percebi que, no JSON resultante, os ids estavam escritos "-ids" (com um hífen no início). No próprio VS Code, fiz um "replace all", transformando-os em "_id" (com underscore no lugar do hífen).
+3. Criei uma função setup_db() dentro de ./utils/myUtils.js que é executada assim que o programa é iniciado (npm start). Essa função importa o JSON para o MongoDB.
