@@ -15,10 +15,29 @@ router.get('/', function(req, res, next) {
     })
 });
 
-router.get('/entidade/:sigla', function(req, res, next) {
-    axios.get('http://clav-api.dglab.gov.pt/api/entidades/'+req.params.sigla+'?apikey='+apiKey)
+router.get('/entidade/:id', function(req, res, next) {
+  var entidade = {};
+  axios.get('http://clav-api.dglab.gov.pt/api/entidades/'+req.params.id+'?apikey='+apiKey)
       .then(dados => {
-        res.render('detalhes-entidade', { entidade: dados.data});
+          entidade.details = dados.data;
+          return axios.get('http://clav-api.dglab.gov.pt/api/entidades/'+req.params.id+'/tipologias?apikey='+apiKey)
+      })
+      .then(dados => {
+          entidade.tipologias = dados.data;
+          return axios.get('http://clav-api.dglab.gov.pt/api/entidades/'+req.params.id+'/intervencao/dono?apikey='+apiKey)
+      })
+      .then(dados => {
+          if(dados.data) {
+              entidade.donos = dados.data;
+          } else {
+              entidade.donos = [];
+          }
+          return axios.get('http://clav-api.dglab.gov.pt/api/entidades/'+req.params.id+'/intervencao/participante?apikey='+apiKey)
+      })
+      .then(dados => {
+          entidade.participantes = dados.data;
+          console.log(entidade);
+          res.render('detalhes-entidade', { entidade: entidade});
       })
       .catch(err => {
         res.render('error', {error: err})

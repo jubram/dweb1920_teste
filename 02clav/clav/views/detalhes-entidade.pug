@@ -2,4 +2,49 @@ extends layout
 
 block content
     .w3-container
-        h1 entidade.designacao
+        h1= entidade.details.designacao
+        br
+        p Sigla: !{entidade.details.sigla}
+        p SIOE: !{entidade.details.sioe}
+        p Estado: !{entidade.details.estado}
+        br
+
+        h3 Tipologias
+        table.w3-table-all
+            tr
+                th Sigla
+                th Designação
+            each tipologia in entidade.tipologias
+                tr
+                    td= tipologia.sigla
+                    td= tipologia.designacao
+        br
+
+        h3 Processos - Dono
+        table.w3-table-all
+            tr
+                th Código
+                th Título
+            each dono in entidade.donos
+                tr
+                    td= dono.codigo
+                    td= dono.titulo
+        br
+
+        h3 Processos - Participante
+        table.w3-table-all
+            tr
+                th Tipo de Participação
+                th Código
+                th Título
+            each participante in entidade.participantes
+                tr
+                    td= participante.tipoPar
+                    td= participante.codigo
+                    td= participante.titulo
+        
+        br
+        br
+
+        address
+            a(href='http://localhost:3005/') Home Page
